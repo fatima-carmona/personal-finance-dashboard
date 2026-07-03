@@ -18,6 +18,22 @@
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
 }
 
+[data-theme="dark"] {
+  --paper: #17191A;
+  --surface: #1F2223;
+  --ink: #EDEBE6;
+  --ink-soft: #9B9F97;
+  --rule: #2E3231;
+  --rule-strong: #3D4241;
+  --income: #4BA97C;
+  --income-soft: #1E2E26;
+  --expense: #D97A57;
+  --expense-soft: #332420;
+  --gold: #D6B34F;
+  --gold-soft: #302A18;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
 * { box-sizing: border-box; }
 
 html, body, #root {

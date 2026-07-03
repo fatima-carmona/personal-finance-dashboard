@@ -3,10 +3,10 @@ import Sidebar from '../components/Sidebar'
 import TransactionModal from '../components/TransactionModal'
 import { getTransactions, createTransaction, updateTransaction, deleteTransaction } from '../api/transactionApi'
 import { getCategories } from '../api/categoryApi'
-
-const currencyFmt = (n) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n)
+import { useCurrencyFormatter } from '../context/PreferencesContext'
 
 export default function Transactions() {
+  const currencyFmt = useCurrencyFormatter()
   const [data, setData] = useState({ content: [], totalPages: 0, number: 0 })
   const [categories, setCategories] = useState([])
   const [filters, setFilters] = useState({ categoryId: '', type: '', startDate: '', endDate: '' })

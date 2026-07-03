@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts'
 import Sidebar from '../components/Sidebar'
 import { getDashboardSummary } from '../api/reportApi'
-
-const currencyFmt = (n) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n)
+import { useCurrencyFormatter } from '../context/PreferencesContext'
 
 export default function Dashboard() {
   const [summary, setSummary] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const currencyFmt = useCurrencyFormatter()
 
   useEffect(() => {
     getDashboardSummary({})

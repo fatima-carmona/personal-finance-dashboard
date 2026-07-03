@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Sidebar from '../components/Sidebar'
-import { getPreferences, updatePreferences } from '../api/preferenceApi'
+import { usePreferences } from '../context/PreferencesContext'
 
 export default function Settings() {
-  const [prefs, setPrefs] = useState(null)
+  const { preferences, savePreferences, loaded } = usePreferences()
+  const [form, setForm] = useState(preferences)
   const [saved, setSaved] = useState(false)
-  const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    getPreferences().then(setPrefs).finally(() => setLoading(false))
-  }, [])
+  // Keep local form in sync once preferences finish loading from the server
+  React.useEffect(() => { setForm(preferences) }, [preferences])
 
   const handleSave = async (e) => {
     e.preventDefault()
     setSaved(false)
-    const updated = await updatePreferences(prefs)
-    setPrefs(updated)
+    await savePreferences(form)
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
   }
@@ -29,23 +27,23 @@ export default function Settings() {
           <p className="page-subtitle">Preferences are stored per-account and sync across devices.</p>
         </div>
 
-        {loading && <p>Loading…</p>}
+        {!loaded && <p>Loading…</p>}
 
-        {prefs && (
+        {loaded && (
           <div className="card" style={{ maxWidth: 420 }}>
             <div className="card-body">
               {saved && <div style={{ color: 'var(--income)', fontSize: 13, marginBottom: 12 }}>Preferences saved.</div>}
               <form onSubmit={handleSave}>
                 <div className="field">
                   <label>Theme</label>
-                  <select value={prefs.theme} onChange={(e) => setPrefs({ ...prefs, theme: e.target.value })}>
+                  <select value={form.theme} onChange={(e) => setForm({ ...form, theme: e.target.value })}>
                     <option value="light">Light</option>
                     <option value="dark">Dark</option>
                   </select>
                 </div>
                 <div className="field">
                   <label>Currency</label>
-                  <select value={prefs.currency} onChange={(e) => setPrefs({ ...prefs, currency: e.target.value })}>
+                  <select value={form.currency} onChange={(e) => setForm({ ...form, currency: e.target.value })}>
                     <option value="USD">USD ($)</option>
                     <option value="EUR">EUR (€)</option>
                     <option value="GBP">GBP (£)</option>
@@ -54,7 +52,7 @@ export default function Settings() {
                 </div>
                 <div className="field">
                   <label>Default dashboard view</label>
-                  <select value={prefs.defaultDashboardView} onChange={(e) => setPrefs({ ...prefs, defaultDashboardView: e.target.value })}>
+                  <select value={form.defaultDashboardView} onChange={(e) => setForm({ ...form, defaultDashboardView: e.target.value })}>
                     <option value="weekly">Weekly</option>
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
@@ -64,8 +62,8 @@ export default function Settings() {
                   <input
                     type="checkbox"
                     id="emailNotif"
-                    checked={prefs.emailNotifications}
-                    onChange={(e) => setPrefs({ ...prefs, emailNotifications: e.target.checked })}
+                    checked={form.emailNotifications}
+                    onChange={(e) => setForm({ ...form, emailNotifications: e.target.checked })}
                     style={{ width: 'auto' }}
                   />
                   <label htmlFor="emailNotif" style={{ marginBottom: 0 }}>Email me monthly summaries</label>
@@ -79,3 +77,4 @@ export default function Settings() {
     </div>
   )
 }
+
