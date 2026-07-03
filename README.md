@@ -6,13 +6,17 @@ A full-stack personal finance tracker: **Java 17 / Spring Boot** REST API, **Rea
 
 ## Screenshots
 
-| Dashboard | Transactions |
-|---|---|
-| ![Dashboard](docs/screenshots/dashboard.png) | ![Transactions](docs/screenshots/transactions.png) |
+## Dashboard
 
-| Categories | Settings (dark mode) |
-|---|---|
-| ![Categories](docs/screenshots/categories.png) |
+![Dashboard](docs/screenshots/dashboard.png)
+
+## Transactions
+
+![Transactions](docs/screenshots/transactions.png)
+
+## Categories
+
+![Transactions](docs/screenshots/categories.png)
 
 ## Stack
 
