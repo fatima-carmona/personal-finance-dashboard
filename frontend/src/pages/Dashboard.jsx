@@ -27,6 +27,7 @@ export default function Dashboard() {
       .finally(() => setLoading(false))
   }, [])
 
+  console.log(summary?.topExpenseCategories);
   return (
     <div className="app-shell">
       <Sidebar />
@@ -72,7 +73,7 @@ export default function Dashboard() {
                       <Tooltip formatter={(v) => currencyFmt(v)} contentStyle={{ borderRadius: 8, borderColor: '#E2DFD3', fontSize: 13 }} />
                       <Legend wrapperStyle={{ fontSize: 12 }} />
                       <Bar dataKey="income" name="Income" fill="#2F7A54" radius={[3, 3, 0, 0]} />
-                      <Bar dataKey="expense" name="Expense" fill="#B1512F" radius={[3, 3, 0, 0]} />
+                      <Bar dataKey="expense" name="Expense" fill="#3B82F6" radius={[3, 3, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -97,7 +98,7 @@ export default function Dashboard() {
                           paddingAngle={2}
                         >
                           {summary.topExpenseCategories.map((entry, i) => (
-                            <Cell key={i} fill={entry.categoryColor || COLORS[i % COLORS.length]} />
+                            <Cell key={i} fill={entry.categoryColor || '#B1512F'} />
                           ))}
                         </Pie>
                         <Tooltip formatter={(v) => currencyFmt(v)} contentStyle={{ borderRadius: 8, borderColor: '#E2DFD3', fontSize: 13 }} />
