@@ -42,6 +42,14 @@ public class AuthService {
     private static final List<String> DEFAULT_INCOME_CATEGORIES =
             List.of("Salary", "Freelance", "Investments", "Other Income");
 
+    // Distinct colors so categories are visually distinguishable in charts —
+    // cycles if there are ever more categories than swatches.
+    private static final List<String> CATEGORY_COLOR_PALETTE = List.of(
+            "#2F7A54", "#B1512F", "#B08A2E", "#3D5A80",
+            "#8B5CF6", "#0EA5E9", "#DB2777", "#65A30D",
+            "#D97706", "#0F766E", "#9333EA", "#DC2626"
+    );
+
     @Transactional
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -94,10 +102,17 @@ public class AuthService {
     }
 
     private void seedDefaultCategories(Long userId) {
-        DEFAULT_EXPENSE_CATEGORIES.forEach(name -> categoryRepository.save(
-                Category.builder().userId(userId).name(name).type(TransactionType.EXPENSE).color("#f97316").build()));
-        DEFAULT_INCOME_CATEGORIES.forEach(name -> categoryRepository.save(
-                Category.builder().userId(userId).name(name).type(TransactionType.INCOME).color("#22c55e").build()));
+        int colorIndex = 0;
+        for (String name : DEFAULT_EXPENSE_CATEGORIES) {
+            String color = CATEGORY_COLOR_PALETTE.get(colorIndex % CATEGORY_COLOR_PALETTE.size());
+            categoryRepository.save(Category.builder().userId(userId).name(name).type(TransactionType.EXPENSE).color(color).build());
+            colorIndex++;
+        }
+        for (String name : DEFAULT_INCOME_CATEGORIES) {
+            String color = CATEGORY_COLOR_PALETTE.get(colorIndex % CATEGORY_COLOR_PALETTE.size());
+            categoryRepository.save(Category.builder().userId(userId).name(name).type(TransactionType.INCOME).color(color).build());
+            colorIndex++;
+        }
     }
 
     private void recordSession(Long userId, String token, HttpServletRequest httpRequest) {

@@ -5,14 +5,11 @@ import { getDashboardSummary } from '../api/reportApi'
 import { useCurrencyFormatter } from '../context/PreferencesContext'
 
 const COLORS = [
-  "#B1512F",
   "#D97706",
   "#F59E0B",
   "#84CC16",
-  "#10B981",
   "#06B6D4",
   "#3B82F6",
-  "#8B5CF6",
   "#EC4899",
   "#EF4444",
 ];
