@@ -4,6 +4,16 @@ A full-stack personal finance tracker: **Java 17 / Spring Boot** REST API, **Rea
 **MySQL** for relational transaction/category/user data, **MongoDB** for user sessions and preferences,
 **JWT** auth, and **Docker Compose** for one-command startup.
 
+## Screenshots
+
+| Dashboard | Transactions |
+|---|---|
+| ![Dashboard](docs/screenshots/dashboard.png) | ![Transactions](docs/screenshots/transactions.png) |
+
+| Categories | Settings (dark mode) |
+|---|---|
+| ![Categories](docs/screenshots/categories.png) | ![Settings](docs/screenshots/settings-dark.png) |
+
 ## Stack
 
 | Layer | Technology |
@@ -116,9 +126,43 @@ All endpoints except `/api/auth/**` require `Authorization: Bearer <token>`.
   alongside the code.
 - Passwords are hashed with BCrypt; nothing is ever stored or logged in plaintext.
 
+## Testing
+
+Basic unit tests cover JWT token generation/validation and the category/auth service logic
+(duplicate-name and duplicate-account rejection, default-category seeding on registration).
+They use Mockito to isolate the service layer from the database, so no running MySQL/Mongo
+is required to run them.
+
+```bash
+cd backend
+mvn test
+```
+
+## Known limitations
+
+This is a personal/portfolio project, not production software. Things that are intentionally
+out of scope or simplified for now:
+
+- **No refresh tokens** — JWTs are valid for 24h with no revocation beyond expiry. The Mongo
+  `user_sessions` collection records sessions but isn't yet used to invalidate a token early
+  (e.g. on logout or "sign out of all devices").
+- **No rate limiting** on auth endpoints — a production version would throttle login attempts.
+- **Category deletion doesn't cascade or warn about existing transactions** — deleting a
+  category that transactions still reference will leave those transactions pointing at a
+  gone category (the UI falls back to showing "Unknown"). A real version would either block
+  deletion or require reassigning affected transactions first.
+- **Single currency in transactions** — the currency preference only changes *display*
+  formatting; all amounts are still stored as plain decimals with no currency conversion.
+- **No CSV/PDF export** yet.
+- **Test coverage is intentionally minimal** — a few unit tests on the service layer, no
+  integration tests against real MySQL/Mongo instances (would be a good next step using
+  Testcontainers) and no frontend tests yet.
+- **Single-tenant assumptions** — no admin role, no team/shared-budget support.
+
 ## Next steps if you want to extend this
 
 - Add refresh tokens / token revocation (the Mongo session collection already has what you'd need).
 - Add budget targets per category and alerts when a budget is exceeded.
 - Export transactions to CSV.
 - Add integration tests with Testcontainers for MySQL + MongoDB.
+
