@@ -4,6 +4,19 @@ import Sidebar from '../components/Sidebar'
 import { getDashboardSummary } from '../api/reportApi'
 import { useCurrencyFormatter } from '../context/PreferencesContext'
 
+const COLORS = [
+  "#B1512F",
+  "#D97706",
+  "#F59E0B",
+  "#84CC16",
+  "#10B981",
+  "#06B6D4",
+  "#3B82F6",
+  "#8B5CF6",
+  "#EC4899",
+  "#EF4444",
+];
+
 export default function Dashboard() {
   const [summary, setSummary] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -87,7 +100,7 @@ export default function Dashboard() {
                           paddingAngle={2}
                         >
                           {summary.topExpenseCategories.map((entry, i) => (
-                            <Cell key={i} fill={entry.categoryColor || '#B1512F'} />
+                            <Cell key={i} fill={entry.categoryColor || COLORS[i % COLORS.length]} />
                           ))}
                         </Pie>
                         <Tooltip formatter={(v) => currencyFmt(v)} contentStyle={{ borderRadius: 8, borderColor: '#E2DFD3', fontSize: 13 }} />

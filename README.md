@@ -12,7 +12,7 @@ A full-stack personal finance tracker: **Java 17 / Spring Boot** REST API, **Rea
 
 | Categories | Settings (dark mode) |
 |---|---|
-| ![Categories](docs/screenshots/categories.png) | ![Settings](docs/screenshots/settings-dark.png) |
+| ![Categories](docs/screenshots/categories.png) |
 
 ## Stack
 
@@ -34,7 +34,7 @@ A full-stack personal finance tracker: **Java 17 / Spring Boot** REST API, **Rea
   per-user preferences (theme, currency, default view). Keeping this off the relational schema
   keeps the MySQL tables lean and focused on financial reporting.
 
-## Quick start (Docker — recommended)
+## Quick start
 
 ```bash
 cp .env.example .env      # adjust secrets if you like
@@ -159,10 +159,5 @@ out of scope or simplified for now:
   Testcontainers) and no frontend tests yet.
 - **Single-tenant assumptions** — no admin role, no team/shared-budget support.
 
-## Next steps if you want to extend this
 
-- Add refresh tokens / token revocation (the Mongo session collection already has what you'd need).
-- Add budget targets per category and alerts when a budget is exceeded.
-- Export transactions to CSV.
-- Add integration tests with Testcontainers for MySQL + MongoDB.
 
